@@ -1,0 +1,11 @@
+id,usuario,libro,precio,numCopias,fecha,estado,pago
+1,3,3,19.90,1,2024-01-01,entregado,Visa
+2,5,46,20.81,1,2024-01-03,entregado,Paypal
+3,7,87,9.02,1,2024-01-10,entregado,Visa
+4,8,67,16.10,1,2024-01-25,entregado,Paypal
+5,9,34,25.55,1,2024-01-30,entregado,Contrarembolso
+6,1,56,21.56,1,2024-02-01,entregado,Visa
+7,1,98,8.55,1,2024-02-01,entregado,Contrarembolso
+8,3,45,21.75,1,2024-02-10,entregado,Visa
+9,4,23,21.75,1,2024-02-29,entregado,Paypal
+10,7,45,21.75,1,2024-03-01,enviado,Paypal
