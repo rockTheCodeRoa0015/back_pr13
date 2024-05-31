@@ -8,7 +8,11 @@ const booksSchema = new mongoose.Schema(
     cover: { type: String, required: false },
     synopsis: { type: String, required: false },
     price: { type: Number, required: false },
-    categories: { type: Number, required: false },
+    categories: {
+      type: mongoose.Types.ObjectId,
+      required: false,
+      ref: 'categories'
+    },
     sales: { type: Number, trim: true, required: false },
     stock: { type: Number, trim: true, required: false }
   },

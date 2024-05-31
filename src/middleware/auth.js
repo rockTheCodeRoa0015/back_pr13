@@ -32,7 +32,7 @@ const isAdmin = async (req, res, next) => {
     const parsedToken = token.replace('Bearer ', '')
     const { id } = verifyJwt(parsedToken)
     const user = await User.findById(id)
-    if (user.rol === 'admin') {
+    if (user.role === 'admin') {
       user.password = null
       req.user = user
       next()

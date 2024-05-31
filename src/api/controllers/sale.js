@@ -2,7 +2,7 @@ const Sale = require('../models/sale')
 
 const getSales = async (req, res, next) => {
   try {
-    const sale = await Sale.find()
+    const sale = await Sale.find().populate('users').populate('books')
     return res.status(200).json(sale)
   } catch (error) {
     return res.status(400).json('Error en la solicitud')
@@ -12,7 +12,7 @@ const getSales = async (req, res, next) => {
 const getSalesById = async (req, res, next) => {
   try {
     const { id } = req.params
-    const sale = await Sale.findById(id)
+    const sale = await Sale.findById(id).populate('users').populate('books')
     return res.status(200).json(sale)
   } catch (error) {
     return res.status(400).json('Error')
@@ -22,8 +22,10 @@ const getSalesById = async (req, res, next) => {
 const getSalesByUser = async (req, res, next) => {
   try {
     const { id, page, limit } = req.query
-    const countSale = await Sale.find({ user: id })
-    const sale = await Sale.find({ user: id })
+    const countSale = await Sale.find({ users: id })
+    const sale = await Sale.find({ users: id })
+      .populate('users')
+      .populate('books')
       .skip((page - 1) * limit)
       .limit(limit)
       .sort({ date: -1 })

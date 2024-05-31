@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 const salesSchema = new mongoose.Schema(
   {
     id: { type: Number, trim: true, required: true, unique: true },
-    user: { type: Number, required: false },
-    book: { type: Number, required: false },
+    users: { type: mongoose.Types.ObjectId, required: false, ref: 'users' },
+    books: { type: mongoose.Types.ObjectId, required: false, ref: 'books' },
     price: { type: Number, required: false },
     numCopies: { type: Number, required: false },
     date: { type: Date, required: false },

@@ -2,7 +2,7 @@ const Categorie = require('../models/categorie')
 
 const getCategories = async (req, res, next) => {
   try {
-    const categorie = await Categorie.find()
+    const categorie = await Categorie.find().populate('books')
     return res.status(200).json(categorie)
   } catch (error) {
     return res.status(400).json('Error en la solicitud')
@@ -12,7 +12,7 @@ const getCategories = async (req, res, next) => {
 const getCategorieById = async (req, res, next) => {
   try {
     const { id } = req.params
-    const categorie = await Categorie.findById(id)
+    const categorie = await Categorie.findById(id).populate('books')
     return res.status(200).json(categorie)
   } catch (error) {
     return res.status(400).json('Error')

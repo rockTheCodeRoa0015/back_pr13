@@ -1,9 +1,10 @@
 const Book = require('../models/book')
+const Categorie = require('../models/categorie')
 const { deleteFile } = require('../../utils/deleteFile')
 
 const getBooks = async (req, res, next) => {
   try {
-    const book = await Book.find()
+    const book = await Book.find().populate('categories')
     return res.status(200).json(book)
   } catch (error) {
     return res.status(400).json('Error en la solicitud')
@@ -13,7 +14,7 @@ const getBooks = async (req, res, next) => {
 const getBookById = async (req, res, next) => {
   try {
     const { id } = req.params
-    const book = await Book.findById(id)
+    const book = await Book.findById(id).populate('categories')
     return res.status(200).json(book)
   } catch (error) {
     return res.status(400).json('Error')
@@ -36,14 +37,20 @@ const getBookByCategorie = async (req, res, next) => {
     let countbook = 0
     let book = ''
     if (categorie !== 'all') {
-      countbook = await Book.find({ categories: categorie })
-      book = await Book.find({ categories: categorie })
+      let resCat = await Categorie.find({ id: categorie })
+      countbook = await Book.find({ categories: resCat[0]._id })
+      book = await Book.find({ categories: resCat[0]._id })
         .skip((page - 1) * limit)
         .limit(limit)
         .sort({ title: 1 })
     } else {
-      countbook = await Book.find({ categories: { $nin: [9, 10] } })
-      book = await Book.find({ categories: { $nin: [9, 10] } })
+      let resCat = await Categorie.find({ id: [9, 10] })
+      let arrCat = []
+      for (const cat of resCat) {
+        arrCat.push(cat._id)
+      }
+      countbook = await Book.find({ categories: { $nin: arrCat } })
+      book = await Book.find({ categories: { $nin: arrCat } })
         .skip((page - 1) * limit)
         .limit(limit)
         .sort({ title: 1 })

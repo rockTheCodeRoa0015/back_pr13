@@ -5,38 +5,6 @@ const User = require('../api/models/user')
 
 const ARRUSERS = []
 
-fs.readFile('C:/proyecto 13 - Usuarios.csv', 'utf-8', (err, data) => {
-  const array = data.split('\r\n')
-
-  try {
-    for (let i = 1; i < array.length; i++) {
-      const userRow = array[i].split(',')
-      const obUser = {
-        id: userRow[0],
-        email: userRow[1],
-        userName: userRow[2],
-        password: userRow[3],
-        name: userRow[4],
-        lastName1: userRow[5],
-        lastName2: userRow[6],
-        telephone: userRow[7],
-        street: userRow[8],
-        number: userRow[9],
-        floor: userRow[10],
-        door: userRow[11],
-        postalCode: userRow[12],
-        city: userRow[13],
-        province: userRow[14]
-      }
-      ARRUSERS.push(obUser)
-    }
-    //console.log(ARRUSERS)
-    insertUsers()
-  } catch (error) {
-    console.log(error)
-  }
-})
-
 const insertUsers = async () => {
   try {
     await mongoose.connect(process.env.DB_URL)
@@ -58,4 +26,30 @@ const insertUsers = async () => {
   } catch (error) {
     console.log(error)
   }
+}
+
+const seedUsers = async () => {
+  fs.readFile('C:/proyecto 13 - Usuarios.csv', 'utf-8', (err, data) => {
+    const array = data.split('\r\n')
+
+    try {
+      for (let i = 1; i < array.length; i++) {
+        let userRow = array[i].split(',')
+
+        const obj = {}
+
+        for (let j = 0; j < userRow.length; j++) {
+          obj[array[0].split(',')[j]] = userRow[j]
+        }
+        ARRUSERS.push(obj)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  })
+  await insertUsers()
+}
+
+module.exports = {
+  seedUsers
 }

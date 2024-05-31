@@ -2,7 +2,7 @@ const Cart = require('../models/cart')
 
 const getCart = async (req, res, next) => {
   try {
-    const cart = await Cart.find()
+    const cart = await Cart.find().populate('users').populate('books')
     return res.status(200).json(cart)
   } catch (error) {
     return res.status(400).json('Error en la solicitud')
@@ -12,7 +12,7 @@ const getCart = async (req, res, next) => {
 const getCartById = async (req, res, next) => {
   try {
     const { id } = req.params
-    const cart = await Cart.findById(id)
+    const cart = await Cart.findById(id).populate('users').populate('books')
     return res.status(200).json(cart)
   } catch (error) {
     return res.status(400).json('Error')
@@ -22,7 +22,9 @@ const getCartById = async (req, res, next) => {
 const getCartByUser = async (req, res, next) => {
   try {
     const { id } = req.params
-    const sale = await Cart.find({ user: id })
+    const sale = await Cart.find({ users: id })
+      .populate('users')
+      .populate('books')
     return res.status(200).json(sale)
   } catch (error) {
     return res.status(400).json('Error')
@@ -32,9 +34,11 @@ const getCartByUser = async (req, res, next) => {
 const getCartByUserAndBook = async (req, res, next) => {
   try {
     const sale = await Cart.find({
-      user: req.body.user,
-      book: req.body.book
+      users: req.body.user,
+      books: req.body.book
     })
+      .populate('users')
+      .populate('books')
     return res.status(200).json(sale)
   } catch (error) {
     return res.status(400).json('Error')

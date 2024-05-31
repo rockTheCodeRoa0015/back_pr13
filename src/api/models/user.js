@@ -37,7 +37,6 @@ usersSchema.pre('save', function () {
 usersSchema.pre('findOneAndUpdate', function (next) {
   if (this._update.password !== undefined) {
     this._update.password = bcrypt.hashSync(this._update.password, 10)
-    next()
   }
   next()
 })

@@ -6,10 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "categories": "node ./src/seeds/categories.seed.js",
-    "users": "node ./src/seeds/users.seed.js",
-    "books": "node ./src/seeds/books.seed.js",
-    "sales": "node ./src/seeds/sales.seed.js"
+    "chargeDB": "node ./src/seeds/chargeDB.js"
   },
   "keywords": [],
   "author": "",
