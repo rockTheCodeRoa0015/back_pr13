@@ -49,7 +49,7 @@ const seedBooks = async () => {
   const cat = await getCategories()
   fs.readFile('C:/proyecto 13 - Libros.csv', 'utf-8', (err, data) => {
     const array = data.split('\r\n')
-    try {
+    /*try {
       for (let i = 1; i < array.length; i++) {
         const bookRow = array[i].split(',')
         const obBook = {
@@ -67,6 +67,29 @@ const seedBooks = async () => {
       }
       //console.log(ARRBOOKS)
       //insertBooks()
+    } catch (error) {
+      console.log(error)
+    }*/
+    try {
+      for (let i = 1; i < array.length; i++) {
+        let bookRow = array[i].split(',')
+
+        const obj = {}
+
+        for (let j = 0; j < bookRow.length; j++) {
+          if (array[0].split(',')[j] === 'synopsis') {
+            obj[array[0].split(',')[j]] = bookRow[j]
+              .replaceAll(';', ',')
+              .replaceAll('/', '\r\n')
+          } else if (array[0].split(',')[j] === 'categories') {
+            obj[array[0].split(',')[j]] = cat.get(parseInt(bookRow[j]))
+          } else {
+            obj[array[0].split(',')[j]] = bookRow[j]
+          }
+        }
+        ARRBOOKS.push(obj)
+      }
+      //console.log(ARRBOOKS)
     } catch (error) {
       console.log(error)
     }

@@ -70,7 +70,7 @@ const seedSales = async () => {
   const users = await getUsers()
   fs.readFile('C:/proyecto 13 - Ventas.csv', 'utf-8', (err, data) => {
     const array = data.split('\r\n')
-    try {
+    /*try {
       for (let i = 1; i < array.length; i++) {
         const saleRow = array[i].split(',')
         const obSale = {
@@ -87,6 +87,28 @@ const seedSales = async () => {
       }
       //console.log(ARRSALES)
       //insertSales()
+    } catch (error) {
+      console.log(error)
+    }*/
+
+    try {
+      for (let i = 1; i < array.length; i++) {
+        let saleRow = array[i].split(',')
+
+        const obj = {}
+
+        for (let j = 0; j < saleRow.length; j++) {
+          if (array[0].split(',')[j] === 'users') {
+            obj[array[0].split(',')[j]] = users.get(parseInt(saleRow[j]))
+          } else if (array[0].split(',')[j] === 'books') {
+            obj[array[0].split(',')[j]] = books.get(parseInt(saleRow[j]))
+          } else {
+            obj[array[0].split(',')[j]] = saleRow[j]
+          }
+        }
+        ARRSALES.push(obj)
+      }
+      //console.log(ARRSALES)
     } catch (error) {
       console.log(error)
     }
